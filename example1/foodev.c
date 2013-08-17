@@ -18,30 +18,32 @@ __FBSDID("$FreeBSD$");
 #include <machine/machdep.h>
 #include <machine/fdt.h>
 
-struct foodev_softc {
-	        device_t                sc_dev;
-	        bus_space_tag_t         sc_iot;
-	        bus_space_handle_t      sc_gpio_ioh;
-	};
+struct foodev_softc 
+{
+	 device_t sc_dev;
+};
 
 static int
 foodev_probe(device_t dev)
 {
-	device_set_desc(dev, "Foo Device");
 	uprintf("foodev probe\n");
-	return (0);
+	return (BUS_PROBE_DEFAULT);
 }
 
 static int
 foodev_attach(device_t dev)
 {
 	uprintf("foodev attach\n");
-	return (0);
+	device_set_desc(dev, "Foo Device");
+        struct foodev_softc *sc = device_get_softc(dev);
+        sc->sc_dev = dev;
+	return (bus_generic_attach(dev));
 }
 
 static int
 foodev_detach(device_t dev)
 {	
+	bus_generic_detach(dev);
 	return (0);
 }
 
