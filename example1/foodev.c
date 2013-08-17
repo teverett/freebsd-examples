@@ -22,25 +22,33 @@ struct foodev_softc {
 	        device_t                sc_dev;
 	        bus_space_tag_t         sc_iot;
 	        bus_space_handle_t      sc_gpio_ioh;
-	        device_t                iicbb;
 	};
 
 static int
 foodev_probe(device_t dev)
 {
 	device_set_desc(dev, "Foo Device");
+	uprintf("foodev probe\n");
 	return (0);
 }
 
 static int
 foodev_attach(device_t dev)
 {
+	uprintf("foodev attach\n");
+	return (0);
+}
+
+static int
+foodev_detach(device_t dev)
+{	
 	return (0);
 }
 
 static device_method_t foodev_methods[] = {
 	DEVMETHOD(device_probe, foodev_probe),
 	DEVMETHOD(device_attach, foodev_attach),
+	DEVMETHOD(device_detach, foodev_detach),
 	DEVMETHOD_END
 };
 
